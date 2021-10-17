@@ -1,0 +1,24 @@
+//Manging single page routes
+React Router:
+add react-router react-router-dom
+
+
+//Sending and recieving http requests
+Axios:
+add axios
+
+
+//Manging global States
+Mobx:
+add mobx mobx-react
+
+//Recieving and decoding autho tokens
+Jwt:
+addjwt-decode
+
+//UI design & CSS
+Material UI:
+add @mui/material @emotion/react @emotion/styled
+
+Material UI Icons:
+add @mui/icons-material
