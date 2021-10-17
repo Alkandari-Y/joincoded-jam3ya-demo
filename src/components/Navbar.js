@@ -4,7 +4,7 @@ import { useState } from 'react';
 //Components
 import UserRegLog from "./UserRegLog";
 //AuthStore import for valid user
-// import authStore from '../store/authStore'
+import authStore from '../store/authStore'
 //Material UI
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -20,14 +20,29 @@ import AccountCircleSharpIcon from '@mui/icons-material/AccountCircleSharp';
 import LoginSharpIcon from '@mui/icons-material/LoginSharp';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Logout from '@mui/icons-material/Logout';
+import { observer } from 'mobx-react-lite';
 
 const Navbar = () => {
 
+    const [userChoice, setUserChoice] = useState(null)
     const [openUserModal, setOpenUserModal] = useState(false);
-    const activateUserModal = () => setOpenUserModal(true);
-    const closeUserModal = () => setOpenUserModal(false);
-
     const [anchorEl, setAnchorEl] = useState(null);
+
+    //To open close modal and reset form type on close
+    const activateUserModal = () => setOpenUserModal(true);
+    const closeUserModal = () => {
+        setOpenUserModal(false)
+        setUserChoice(null)
+    };
+    //To assign Form type
+    const formType = (choice) => {
+        activateUserModal()
+        setUserChoice(choice);
+        console.log(userChoice)
+    }
+
+
+    //To open dropdown
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -83,14 +98,16 @@ const Navbar = () => {
                     }}
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-                
-                <MenuItem onClick={activateUserModal}>
+                <Typography>
+                    {`Weclome ${authStore.user}`}
+                </Typography>
+                <MenuItem onClick={()=>formType('signup')}>
                     <ListItemIcon>
                         <AccountCircleOutlinedIcon fontSize="small" />
                     </ListItemIcon >
                     Register
                         </MenuItem>
-                <MenuItem onClick={activateUserModal}>
+                <MenuItem onClick={()=>formType('signin')}>
                     <ListItemIcon>
                         <LoginSharpIcon fontSize="small" />
                     </ListItemIcon>
@@ -107,9 +124,11 @@ const Navbar = () => {
             </Toolbar>
             </AppBar>
             <UserRegLog openUserModal={openUserModal}
-                closeUserModal={ closeUserModal }/>
+                closeUserModal={ closeUserModal }
+                userChoice={userChoice} setUserChoice={setUserChoice}
+                />
     </Box>
     )
 }
 
-export default Navbar      
+export default observer(Navbar)      

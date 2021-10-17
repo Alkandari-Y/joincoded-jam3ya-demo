@@ -51,6 +51,8 @@ class AuthStore {
         if (token) {
             const currenntTime = Date.now()
             let currentToken = decode(token)
+            console.log(this.user)
+            console.log(token)
             if (currentToken >= currenntTime) {
                 this.setUser(token)
             } else {
