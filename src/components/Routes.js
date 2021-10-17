@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, Switch } from "react-router";
 //Components
 import Home from "./Home";
-import Jam3ya from "./Jam3ya"
+import Jam3yasList from "./Jam3yasList"
 import PageNotFound from "./PageNotFound"
 
 const Routes = () => {
@@ -10,7 +10,7 @@ const Routes = () => {
         <>
             <Switch>
             <Route path="/Jam3ya">
-                <Jam3ya/>
+                <Jam3yasList/>
             </Route>
             <Route path="/404">
               <PageNotFound />
