@@ -21,6 +21,7 @@ import LoginSharpIcon from '@mui/icons-material/LoginSharp';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import Logout from '@mui/icons-material/Logout';
 import { observer } from 'mobx-react-lite';
+import { List } from '@mui/material';
 
 const Navbar = () => {
 
@@ -38,7 +39,6 @@ const Navbar = () => {
     const formType = (choice) => {
         activateUserModal()
         setUserChoice(choice);
-        console.log(userChoice)
     }
 
 
@@ -98,27 +98,43 @@ const Navbar = () => {
                     }}
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
-                <Typography>
-                    {`Weclome ${authStore.user}`}
-                </Typography>
-                <MenuItem onClick={()=>formType('signup')}>
-                    <ListItemIcon>
-                        <AccountCircleOutlinedIcon fontSize="small" />
-                    </ListItemIcon >
-                    Register
-                        </MenuItem>
-                <MenuItem onClick={()=>formType('signin')}>
-                    <ListItemIcon>
-                        <LoginSharpIcon fontSize="small" />
-                    </ListItemIcon>
-                    login
-                </MenuItem>
-                <MenuItem>
-                    <ListItemIcon>
-                    <Logout fontSize="small" />
-                    </ListItemIcon>
-                    Logout
-                </MenuItem>
+                
+                
+                {authStore.user ?
+                    (
+                        
+                            <List>
+                                <Typography>
+                                    Weclome {authStore.user.username}
+                                </Typography>
+                                <MenuItem onClick={()=>authStore.logOut()}>
+                                    
+                                    <ListItemIcon>
+                                        <Logout fontSize="small" />
+                                    </ListItemIcon>
+                                    Logout
+                                </MenuItem>
+                            </List>
+                        
+                    )
+                    :
+                    (
+                        <List>
+                            <MenuItem onClick={()=>formType('signup')}>
+                                <ListItemIcon>
+                                    <AccountCircleOutlinedIcon fontSize="small" />
+                                </ListItemIcon >
+                                Register
+                                    </MenuItem>
+                            <MenuItem onClick={()=>formType('signin')}>
+                                <ListItemIcon>
+                                    <LoginSharpIcon fontSize="small" />
+                                </ListItemIcon>
+                                login
+                            </MenuItem>
+                        </List>
+                    )
+                }
             </Menu>
             {/* Add onclick for modal, transfer states as props */}
             </Toolbar>

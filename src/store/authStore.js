@@ -1,20 +1,13 @@
-import { makeObservable, observable, action } from "mobx";
+import { makeAutoObservable } from "mobx";
 import decode from 'jwt-decode'
 import api from "./api";
-import axios from 'axios'
-
 
 class AuthStore {
     user = null;
     
 
     constructor() {
-        makeObservable(this, {
-            user: observable,
-            signUp: action,
-            signIn: action,
-            logOut: action
-        })
+        makeAutoObservable(this, {})
     }
 
     setUser = (token) => {
@@ -23,31 +16,39 @@ class AuthStore {
         this.user = decode(token)
     }
 
-    signUp = async ({username, email, password}) => {
+    logging = async (path, userData) => {
         try {
-            const response = await axios.post('/signup', {username, email, password})
-            this.user = response.data.token
-            console.log(response.data)
-            this.setUser(response.data.token)
+          const response = await api.post(`${path}`, userData);
+          this.setUser(response.data.token);
         } catch (error) {
-            console.log(error)
+          console.log(error);
         }
-    }
+      };
 
-    signIn = async ({username, password}) => {
-        try {
-            const response = await api.post("/signin", {username, password})
-            this.setUser(response.data.token)
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // signUp = async (userData) => {
+    //     try {
+    //         const response = await api.post('/signup', userData)
+    //         this.user = response.data.token
+    //         console.log(response.data)
+    //         this.setUser(response.data.token)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+
+    // signIn = async (userData) => {
+    //     try {
+    //         const response = await api.post("/signin", userData)
+    //         this.setUser(response.data.token)
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     logOut = () => {
         delete api.defaults.headers.common.Authorization
         localStorage.removeItem("myToken")
         this.user = null;
-
     }
 
     checkForToken = () => {
@@ -55,15 +56,11 @@ class AuthStore {
         if (token) {
             const currenntTime = Date.now()
             let currentToken = decode(token)
-            console.log(this.user)
-            console.log(token)
             if (currentToken >= currenntTime) {
                 this.setUser(token)
             } else {
                 this.logOut()
             }
-        } else {
-            this.logOut()
         }
     }
 };

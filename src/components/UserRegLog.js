@@ -7,7 +7,7 @@ import authStore from "../store/authStore"
 //Material UI
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button'
+// import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
 import PasswordIcon from '@mui/icons-material/Password';
 import PersonIcon from '@mui/icons-material/Person';
@@ -18,7 +18,7 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 300,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -35,70 +35,86 @@ const UserRegLog = (props) => {
       const handleChange = (event) => {
         setUserInput({ ...userInput, [event.target.name]: event.target.value });
       };
-    // userChoice={userChoice} setUserChoice={setUserChoice}
 
-    const handleSubmit=(event)=> {
-        event.preventDefault();
-        console.log(props.userChoice)
-        props.userChoice==='signin' ? authStore.signIn(userInput): authStore.signUp(userInput);
+
+      const onCloseAction = () => {
+        setUserInput({
+            username: "",
+            email: "",
+            password: "",
+          });
         props.closeUserModal();
     }
 
+    const handleSubmit=(event)=> {
+        event.preventDefault();
+        props.userChoice ==='signin' ? authStore.logging("/signin", userInput): authStore.logging("/signup", userInput);
+        onCloseAction()
+    }
 
     return (
         <div>
             <Modal
             open={props.openUserModal}
-            onClose={()=>props.closeUserModal()}
+            onClose={onCloseAction}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             >
-                <Box component="form"
+                <Box
                     sx={style}
-                    Validate
+                    
                     autoComplete="off"
                     >
                     <form onSubmit={handleSubmit}>
-                        
-                        <PersonIcon/>
-                        <TextField
-                            required
-                            id="filled-required"
-                            type="text"
-                            label="Username"
-                            placeholder="Username"
-                            variant="filled"
-                            onChange={handleChange}
-                        />
+                        <div>
+                            <PersonIcon/>
+                            <TextField
+                                required
+                                value={userInput.username}
+                                name="username"
+                                
+                                type="text"
+                                label="Username"
+                                placeholder="Username"
+                                variant="filled"
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <br/>
                         {props.userChoice ==='signup' &&
-                        <>
-                        <AlternateEmailIcon/>
-                        <TextField
-                            required
-                            id="filled-required"
-                            type="email"
-                            label="email"
-                            placeholder="email@something.com"
-                            variant="filled"
-                            onChange={handleChange}
-                        />
-                        </>
+                        <div>
+                            <AlternateEmailIcon/>
+                            <TextField
+                                required
+                                value={userInput.email}
+                                name="email"
+                
+                                type="email"
+                                label="email"
+                                placeholder="email@something.com"
+                                variant="filled"
+                                onChange={handleChange}
+                            />
+                        </div>
                         }
-                        
-                        <PasswordIcon/>
-                        <TextField
-                            required
-                            id="filled-password-input"
-                            label="Password"
-                            placeholder="secret code!"
-                            type="password"
-                            onChange={handleChange}
-                            variant="filled"
-                        />
-                        <Button variant="contained" type="submit">{props.userChoice}</Button>
-                        
-            
+                        <br/>
+                        <div>
+                            <PasswordIcon/>
+                            <TextField
+                                required
+                                value={userInput.password }
+                                name="password"
+                                
+                                label="Password"
+                                placeholder="secret code!"
+                                type="password"
+                                onChange={handleChange}
+                                variant="filled"
+                            />
+                        </div>
                     </form>
+
+                    <button variant="contained" type="submit">{props.userChoice}</button>
                 </Box>
             </Modal>
         </div>

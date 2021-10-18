@@ -82,3 +82,16 @@ jam3ya structure:
         "__v": 0
     }
 ]
+
+
+
+token structure
+
+{
+  "_id": "616d3c5bbd24a6c3d46ae0c3",
+  "username": "elgatos",
+  "email": "elgatos@cartel.com",
+  "wallet": 100,
+  "exp": 1638868827184,
+  "iat": 1634548827
+}
