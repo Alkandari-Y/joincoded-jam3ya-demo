@@ -20,6 +20,10 @@ type = 'get'
 
 //Auth Only
 
+User Create {jam3ya}:
+url = 'https://coded-miniproject-jam3ya-be.herokuapp.com/jam3ya'
+type = 'post
+
 User Join {jam3ya}:
 
 url = 'https://coded-miniproject-jam3ya-be.herokuapp.com/jam3ya/join/${jam3yaId}'

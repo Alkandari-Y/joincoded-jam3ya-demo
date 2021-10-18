@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 //Components
-import UserRegLog from "./UserRegLog";
+import UsefAuthForm from "./UsefAuthForm";
 //AuthStore import for valid user
 import authStore from '../store/authStore'
 //Material UI
@@ -60,6 +60,27 @@ const Navbar = () => {
                 <Link to="/jam3ya">Jam3ya</Link>
             </Typography>
             {/* add boolean check for use to toggle login/reg to logout */}
+
+            {(authStore.user) ?
+                    (
+                    <div>
+                            
+                        <List sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                                Weclome {authStore.user.username}
+                            </Typography>
+                            <MenuItem onClick={()=>authStore.logOut()}>
+                                <ListItemIcon>
+                                    <Logout fontSize="small" />
+                                </ListItemIcon>
+                                    Logout
+                            </MenuItem>
+                        </List>
+                    </div>
+                    )
+                    :
+                    (
+            <div>
             <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                 <Tooltip title="Account settings">
                 <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
@@ -100,25 +121,7 @@ const Navbar = () => {
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
                 
                 
-                {authStore.user ?
-                    (
-                        
-                            <List>
-                                <Typography>
-                                    Weclome {authStore.user.username}
-                                </Typography>
-                                <MenuItem onClick={()=>authStore.logOut()}>
-                                    
-                                    <ListItemIcon>
-                                        <Logout fontSize="small" />
-                                    </ListItemIcon>
-                                    Logout
-                                </MenuItem>
-                            </List>
-                        
-                    )
-                    :
-                    (
+                
                         <List>
                             <MenuItem onClick={()=>formType('signup')}>
                                 <ListItemIcon>
@@ -133,13 +136,15 @@ const Navbar = () => {
                                 login
                             </MenuItem>
                         </List>
+                </Menu>
+            </div>
                     )
                 }
-            </Menu>
+            
             {/* Add onclick for modal, transfer states as props */}
             </Toolbar>
             </AppBar>
-            <UserRegLog openUserModal={openUserModal}
+            <UsefAuthForm openUserModal={openUserModal}
                 closeUserModal={ closeUserModal }
                 userChoice={userChoice} setUserChoice={setUserChoice}
                 />

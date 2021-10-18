@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from "react-router";
 import Home from "./Home";
 import Jam3yasList from "./Jam3yasList"
 import PageNotFound from "./PageNotFound"
-import RegLog from "./RegLog"
+// import RegLog from "./RegLog"
 
 const Routes = () => {
     return (
@@ -13,9 +13,7 @@ const Routes = () => {
             <Route path="/Jam3ya">
                 <Jam3yasList/>
             </Route>
-            <Route path="/:formType">
-              <RegLog/>
-            </Route>
+
             <Route path="/404">
               <PageNotFound />
             </Route>

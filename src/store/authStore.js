@@ -25,26 +25,6 @@ class AuthStore {
         }
       };
 
-    // signUp = async (userData) => {
-    //     try {
-    //         const response = await api.post('/signup', userData)
-    //         this.user = response.data.token
-    //         console.log(response.data)
-    //         this.setUser(response.data.token)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
-    // signIn = async (userData) => {
-    //     try {
-    //         const response = await api.post("/signin", userData)
-    //         this.setUser(response.data.token)
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
     logOut = () => {
         delete api.defaults.headers.common.Authorization
         localStorage.removeItem("myToken")
@@ -52,17 +32,17 @@ class AuthStore {
     }
 
     checkForToken = () => {
-        const token = localStorage.getItem("myToken")
+        const token = localStorage.getItem("myToken");
         if (token) {
-            const currenntTime = Date.now()
-            let currentToken = decode(token)
-            if (currentToken >= currenntTime) {
-                this.setUser(token)
-            } else {
-                this.logOut()
-            }
+          const currentTime = Date.now(); // give us the current time
+          let tempUser = decode(token);
+          if (tempUser.exp >= currentTime) {
+            this.setUser(token);
+          } else {
+            this.logout();
+          }
         }
-    }
+      };
 };
 
 const authStore = new AuthStore();

@@ -10,12 +10,21 @@ class CoopStore{
 
     fetchJam3ya = async () => {
         try {
-            const res = await api.get('https://coded-miniproject-jam3ya-be.herokuapp.com/jam3ya');
+            const res = await api.get('/jam3ya');
             this.jam3yas = (res.data);
         } catch (err) {
             console.log(err);
         };
     };
+    
+    createJam3ya = async (newJam3ya) => {
+        try {
+            const res = await api.post('/jam3ya', newJam3ya)
+            this.jam3yas = [...this.jam3yas, res.data];
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
 
 }

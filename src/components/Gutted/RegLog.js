@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 //AuthStore
-import authStore from "../store/authStore"
+import authStore from "../../store/authStore"
 
 //Material UI
 
