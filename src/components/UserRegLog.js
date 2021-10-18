@@ -29,6 +29,7 @@ const UserRegLog = (props) => {
 
     const [userInput, setUserInput] = useState({
         username: "",
+        email: "",
         password: "",
       });
       const handleChange = (event) => {
@@ -38,7 +39,8 @@ const UserRegLog = (props) => {
 
     const handleSubmit=(event)=> {
         event.preventDefault();
-        props.userChoice==='signin' ? authStore.logging(userInput, "signin"): authStore.logging(userInput, "signup");
+        console.log(props.userChoice)
+        props.userChoice==='signin' ? authStore.signIn(userInput): authStore.signUp(userInput);
         props.closeUserModal();
     }
 

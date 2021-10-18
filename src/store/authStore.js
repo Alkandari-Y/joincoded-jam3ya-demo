@@ -1,6 +1,8 @@
 import { makeObservable, observable, action } from "mobx";
 import decode from 'jwt-decode'
 import api from "./api";
+import axios from 'axios'
+
 
 class AuthStore {
     user = null;
@@ -21,18 +23,20 @@ class AuthStore {
         this.user = decode(token)
     }
 
-    signUp = async (userData) => {
+    signUp = async ({username, email, password}) => {
         try {
-            const response = await api.post('/signup', userData)
+            const response = await axios.post('/signup', {username, email, password})
+            this.user = response.data.token
+            console.log(response.data)
             this.setUser(response.data.token)
         } catch (error) {
             console.log(error)
         }
     }
 
-    signIn = async (userData) => {
+    signIn = async ({username, password}) => {
         try {
-            const response = await api.post("/signin", userData)
+            const response = await api.post("/signin", {username, password})
             this.setUser(response.data.token)
         } catch (error) {
             console.log(error)
